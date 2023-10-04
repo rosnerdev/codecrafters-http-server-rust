@@ -30,8 +30,8 @@ fn main() {
                         } else if path == "/user-agent" {
                             let agent = req_str
                                 .split("\r\n")
-                                .find(|line| line.starts_with("User-Agent: "))
-                                .map(|line| line.trim_start_matches("User-Agent: "))
+                                .find(|line| line.starts_with("Host: "))
+                                .map(|line| line.trim_start_matches("Host: "))
                                 .unwrap();
                             
                             stream
