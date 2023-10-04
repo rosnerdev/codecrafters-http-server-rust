@@ -19,14 +19,14 @@ fn main() {
 
                         if path == "/" || path == "/echo/" {
                             stream
-                                .write_all("HTTP/1.1 200 OK\r\n\r\nContent-Type: text/plain\r\n\r\nContent-Length: 0\r\n\r\n".as_bytes())
+                                .write_all("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 0\r\n\r\n".as_bytes())
                                 .unwrap();
                             stream.flush().unwrap();
-                        } else if path.starts_with("/echo/") && path_vec.len() == 3 {
+                        } else if path.starts_with("/echo/") {
                             let param = path_vec[2];
 
                             stream
-                                .write_all(format!("HTTP/1.1 200 OK\r\n\r\nContent-Type: text/plain\r\n\r\nContent-Length: {}\r\n\r\n{}", param.len(), param).as_bytes())
+                                .write_all(format!("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {}\r\n\r\n{}", param.len(), param).as_bytes())
                                 .unwrap();
                             stream.flush().unwrap();
                         } else {
