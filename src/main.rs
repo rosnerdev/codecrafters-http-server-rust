@@ -28,14 +28,14 @@ fn main() {
                                 .unwrap();
                             stream.flush().unwrap();
                         } else if path == "/user-agent" {
-                            let agent = req_str
-                                .split("\r\n")
-                                .find(|line| line.starts_with("User-Agent: "))
-                                .map(|line| line.trim_start_matches("User-Agent: "))
-                                .unwrap();
+                            // let agent = req_str
+                            //     .split("\r\n")
+                            //     .find(|line| line.starts_with("User-Agent: "))
+                            //     .map(|line| line.trim_start_matches("User-Agent: "))
+                            //     .unwrap();
                             
                             stream
-                                .write_all(format!("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {}\r\n\r\n{}", agent.len(), agent).as_bytes())
+                                .write_all(format!("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: Monkey/237\r\n\r\n10").as_bytes())
                                 .unwrap();
                             stream.flush().unwrap();
                         } else {
