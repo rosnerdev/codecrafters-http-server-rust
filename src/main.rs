@@ -26,7 +26,7 @@ fn main() {
                             }
                             None => {
                                 stream
-                                    .write_all("HTTP/1.1 404 Not Found\r\n\r\n".as_bytes())
+                                    .write_all("HTTP/1.1 200 OK\r\n\r\nContent-Type: text/plain\r\n\r\nContent-Length: 0\r\n\r\n").as_bytes()
                                     .unwrap();
                                 stream.flush().unwrap();
                             }
