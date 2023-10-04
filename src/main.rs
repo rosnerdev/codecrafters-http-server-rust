@@ -12,21 +12,36 @@ fn main() {
 
                 reader.read_line(&mut req_str).unwrap();
                 
-                let _path = req_str.split(" ").nth(1);
-                match _path {
+                let path = req_str.split(" ").nth(1);
+                match path {
                     Some(path) => {
-                        if path == "/" || path == "/echo/" {
+                        if path == "/" {
                             stream
                                 .write_all("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 0\r\n\r\n".as_bytes())
                                 .unwrap();
                             stream.flush().unwrap();
                         } else if path.starts_with("/echo/") {
-                            let param = &path[6..];
+                            let param = if path.len() > 6 {&path[6..]} else {""};
 
                             stream
                                 .write_all(format!("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {}\r\n\r\n{}", param.len(), param).as_bytes())
                                 .unwrap();
                             stream.flush().unwrap();
+                        } else if path == "/user-agent" {
+                            let lines = req_str.split("\r\n").collect::<Vec<&str>>();
+                            
+                            for line in lines {
+                                if line.starts_with("User-Agent:") {
+                                    let agent = line.split(": ").collect::<Vec<&str>>()[1];
+
+                                    stream
+                                        .write_all(format!("HTTP/1.1 200 OK\r\n\r\nContent-Type: text/plain\r\nContent-Length: {}\r\n\r\n{}", agent.len(), agent).as_bytes())
+                                        .unwrap();
+                                    stream.flush().unwrap();
+
+                                    break;
+                                }
+                            }
                         } else {
                             stream
                                 .write_all("HTTP/1.1 404 Not Found\r\n\r\n".as_bytes())
