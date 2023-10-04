@@ -16,7 +16,6 @@ fn main() {
                 match _path {
                     Some(path) => {
                         let path_vec = path.split("/").collect::<Vec<&str>>();
-                        let param = path_vec[2];
 
                         if path_vec.len() == 1 {
                             stream
@@ -24,6 +23,8 @@ fn main() {
                                 .unwrap();
                             stream.flush().unwrap();
                         } else if path_vec.len() == 2 {
+                            let param = path_vec[1];
+                            
                             stream
                                 .write_all(format!("HTTP/1.1 200 OK\r\n\r\nContent-Type: text/plain\r\n\r\nContent-Length: {}\r\n\r\n{}", param.len(), param).as_bytes())
                                 .unwrap();
