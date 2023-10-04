@@ -15,15 +15,15 @@ fn main() {
                 let _path = req_str.split(" ").nth(1);
                 match _path {
                     Some(path) => {
-                        let _path_vec = path.split("/").collect::<Vec<&str>>();
+                        let path_vec = path.split("/").collect::<Vec<&str>>();
 
                         if path == "/" || path == "/echo/" {
                             stream
                                 .write_all("HTTP/1.1 200 OK\r\n\r\nContent-Type: text/plain\r\n\r\nContent-Length: 0\r\n\r\n".as_bytes())
                                 .unwrap();
                             stream.flush().unwrap();
-                        } else if path.starts_with("/echo/") {
-                            let param = &path[6..];
+                        } else if path.starts_with("/echo/") && path_vec.len() == 3 {
+                            let param = path_vec[2];
 
                             stream
                                 .write_all(format!("HTTP/1.1 200 OK\r\n\r\nContent-Type: text/plain\r\n\r\nContent-Length: {}\r\n\r\n{}", param.len(), param).as_bytes())
