@@ -22,9 +22,9 @@ fn main() {
                                 .write_all("HTTP/1.1 200 OK\r\n\r\nContent-Type: text/plain\r\n\r\nContent-Length: 0\r\n\r\n".as_bytes())
                                 .unwrap();
                             stream.flush().unwrap();
-                        } else if path_vec.len() == 2 {
-                            let param = path_vec[1];
-                            
+                        } else if path.starts_with("/echo/") {
+                            let param = path_vec[2];
+
                             stream
                                 .write_all(format!("HTTP/1.1 200 OK\r\n\r\nContent-Type: text/plain\r\n\r\nContent-Length: {}\r\n\r\n{}", param.len(), param).as_bytes())
                                 .unwrap();
