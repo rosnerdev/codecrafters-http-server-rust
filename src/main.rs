@@ -35,7 +35,7 @@ fn main() {
                                     let agent = line.split(": ").collect::<Vec<&str>>()[1];
 
                                     stream
-                                        .write_all(format!("HTTP/1.1 200 OK\r\n\r\nContent-Type: text/plain\r\nContent-Length: {}\r\n\r\n{}", agent.len(), agent).as_bytes())
+                                        .write_all(format!("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {}\r\n\r\n{}", agent.len(), agent).as_bytes())
                                         .unwrap();
                                     stream.flush().unwrap();
 
