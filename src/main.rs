@@ -15,40 +15,26 @@ fn main() {
                 let _path = req_str.split(" ").nth(1);
                 match _path {
                     Some(path) => {
-                        let param = path.split("/").nth(2);
+                        let path_vec = path.split("/").collect::<Vec<&str>>();
+                        let base = path_vec[1];
+                        let param = path_vec[2];
 
-                        match param {
-                            Some(param) => {
-                                stream
-                                    .write_all(format!("HTTP/1.1 200 OK\r\n\r\nContent-Type: text/plain\r\n\r\nContent-Length: {}\r\n\r\n{}", param.len(), param).as_bytes())
-                                    .unwrap();
-                                stream.flush().unwrap();
-                            }
-                            None => {
-                                stream
-                                    .write_all("HTTP/1.1 200 OK\r\n\r\nContent-Type: text/plain\r\n\r\nContent-Length: 0\r\n\r\n".as_bytes())
-                                    .unwrap();
-                                stream.flush().unwrap();
-                            }
+                        if path_vec.len() == 1 {
+                            stream
+                                .write_all("HTTP/1.1 200 OK\r\n\r\nContent-Type: text/plain\r\n\r\nContent-Length: 0\r\n\r\n".as_bytes())
+                                .unwrap();
+                            stream.flush().unwrap();
+                        } else if path_vec.len() == 3 && base == "echo" {
+                            stream
+                                .write_all(format!("HTTP/1.1 200 OK\r\n\r\nContent-Type: text/plain\r\n\r\nContent-Length: {}\r\n\r\n{}", param.len(), param).as_bytes())
+                                .unwrap();
+                            stream.flush().unwrap();
+                        } else {
+                            stream
+                                .write_all("HTTP/1.1 404 Not Found\r\n\r\n".as_bytes())
+                                .unwrap();
+                            stream.flush().unwrap();
                         }
-                        // if path != "/" {
-                        //     let param = path.split("/").nth(2);
-
-                        //     match param {
-                        //         Some(param) => {
-                        //             stream
-                        //                 .write_all(format!("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {}\r\n\r\n{}", param.len(), param).as_bytes())
-                        //                 .unwrap();
-                        //             stream.flush().unwrap();
-                        //         }
-                        //         None => {}
-                        //     }
-                        // } else {
-                        //     stream
-                        //         .write_all("HTTP/1.1 404 Not Found\r\n\r\n".as_bytes())
-                        //         .unwrap();
-                        //     stream.flush().unwrap();
-                        // }
                     }
                     None => {}
                 }
