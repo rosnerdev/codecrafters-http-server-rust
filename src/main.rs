@@ -1,5 +1,5 @@
 use std::net::TcpListener;
-use std::io::{BufReader, BufRead, Write};
+use std::io::{BufReader, Read, Write};
 
 fn main() {
     let listener = TcpListener::bind("127.0.0.1:4221").unwrap();
@@ -8,9 +8,11 @@ fn main() {
         match stream {
             Ok(mut stream) => {
                 let mut reader = BufReader::new(stream.try_clone().unwrap());
-                let mut req_str = String::new();
+                let mut buffer = [0; 1024];
 
-                reader.read_line(&mut req_str).unwrap();
+                reader.read(&mut buffer).unwrap();
+
+                let req_str = String::from_utf8_lossy(&buffer[..]);
                 
                 let path = req_str.split(" ").nth(1);
                 match path {
