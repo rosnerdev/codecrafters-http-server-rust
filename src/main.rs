@@ -35,7 +35,7 @@ fn main() {
                             //     .unwrap();
                             
                             stream
-                                .write_all(format!("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: Monkey/237\r\n\r\n10").as_bytes())
+                                .write_all(format!("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 10\r\n\r\nMonkey/237").as_bytes())
                                 .unwrap();
                             stream.flush().unwrap();
                         } else {
