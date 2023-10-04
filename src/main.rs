@@ -28,7 +28,7 @@ fn main() {
                                 .unwrap();
                             stream.flush().unwrap();
                         } else if path == "/user-agent" {
-                            let lines = req_str.split("\n").collect::<Vec<&str>>();
+                            let lines = req_str.split("\r\n").collect::<Vec<&str>>();
                             
                             for line in lines {
                                 if line.contains("User-Agent") {
