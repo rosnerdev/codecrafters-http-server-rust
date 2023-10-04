@@ -10,7 +10,6 @@ fn main() {
                 stream
                     .write_all("HTTP/1.1 200 OK\r\n\r\n".as_bytes())
                     .unwrap();
-                stream.flush().unwrap();
                 
             }
             Err(e) => {
