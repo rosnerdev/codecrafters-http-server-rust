@@ -31,8 +31,9 @@ fn main() {
                             let lines = req_str.split("\n").collect::<Vec<&str>>();
                             
                             for line in lines {
-                                if line.starts_with("User-Agent:") {
-                                    let agent = line.split(": ").collect::<Vec<&str>>()[1];
+                                if line.contains("User-Agent:") {
+                                    let agent = line.split(": ").collect::<Vec<&str>>();
+                                    let agent = agent[1];
 
                                     stream
                                         .write_all(format!("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {}\r\n\r\n{}", agent.len(), agent).as_bytes())
