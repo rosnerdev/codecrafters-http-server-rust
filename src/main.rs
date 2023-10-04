@@ -31,7 +31,7 @@ fn main() {
                             let lines = req_str.split("\n").collect::<Vec<&str>>();
                             
                             for line in lines {
-                                if line.contains("User-Agent:") {
+                                if line.contains("User-Agent") {
                                     let agent = line.split(": ").collect::<Vec<&str>>();
                                     let agent = agent[1];
 
