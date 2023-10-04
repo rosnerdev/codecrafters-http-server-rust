@@ -20,7 +20,7 @@ fn main() {
                         match param {
                             Some(param) => {
                                 stream
-                                    .write_all(format!("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {}\r\n\r\n{}", param.len(), param).as_bytes())
+                                    .write_all(format!("HTTP/1.1 200 OK\r\n\r\nContent-Type: text/plain\r\n\r\nContent-Length: {}\r\n\r\n{}", param.len(), param).as_bytes())
                                     .unwrap();
                                 stream.flush().unwrap();
                             }
