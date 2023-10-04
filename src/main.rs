@@ -1,6 +1,5 @@
 use std::net::TcpListener;
 use std::io::{BufReader, BufRead, Write};
-use std::fmt::Display;
 
 fn main() {
     let listener = TcpListener::bind("127.0.0.1:4221").unwrap();
@@ -16,8 +15,8 @@ fn main() {
                 let _path = req_str.split(" ").nth(1);
                 match _path {
                     Some(path) => {
-                        if path.starts_with("/echo/") {
-                            let param = path.split("/").nth(3);
+                        if path != "/" {
+                            let param = path.split("/").nth(2);
 
                             match param {
                                 Some(param) => {
