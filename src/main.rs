@@ -28,21 +28,16 @@ fn main() {
                                 .unwrap();
                             stream.flush().unwrap();
                         } else if path == "/user-agent" {
-                            let lines = req_str.split("\r\n").collect::<Vec<&str>>();
+                            let agent = req_str
+                                .split("\r\n")
+                                .find(|line| line.starts_with("User-Agent: "))
+                                .map(|line| line.trim_start_matches("User-Agent: "))
+                                .unwrap();
                             
-                            for line in lines {
-                                if line.contains("User-Agent") {
-                                    let agent = line.split(": ").collect::<Vec<&str>>();
-                                    let agent = agent[1];
-
-                                    stream
-                                        .write_all(format!("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {}\r\n\r\n{}", agent.len(), agent).as_bytes())
-                                        .unwrap();
-                                    stream.flush().unwrap();
-
-                                    break;
-                                }
-                            }
+                            stream
+                                .write_all(format!("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {}\r\n\r\n{}", agent.len(), agent).as_bytes())
+                                .unwrap();
+                            stream.flush().unwrap();
                         } else {
                             stream
                                 .write_all("HTTP/1.1 404 Not Found\r\n\r\n".as_bytes())
