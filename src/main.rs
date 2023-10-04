@@ -24,7 +24,12 @@ fn main() {
                                     .unwrap();
                                 stream.flush().unwrap();
                             }
-                            None => {}
+                            None => {
+                                stream
+                                    .write_all("HTTP/1.1 404 Not Found\r\n\r\n".as_bytes())
+                                    .unwrap();
+                                stream.flush().unwrap();
+                            }
                         }
                         // if path != "/" {
                         //     let param = path.split("/").nth(2);
