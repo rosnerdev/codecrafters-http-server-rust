@@ -15,24 +15,35 @@ fn main() {
                 let _path = req_str.split(" ").nth(1);
                 match _path {
                     Some(path) => {
-                        if path != "/" {
-                            let param = path.split("/").nth(2);
+                        let param = path.split("/").nth(2);
 
-                            match param {
-                                Some(param) => {
-                                    stream
-                                        .write_all(format!("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {}\r\n\r\n{}", param.len(), param).as_bytes())
-                                        .unwrap();
-                                    stream.flush().unwrap();
-                                }
-                                None => {}
+                        match param {
+                            Some(param) => {
+                                stream
+                                    .write_all(format!("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {}\r\n\r\n{}", param.len(), param).as_bytes())
+                                    .unwrap();
+                                stream.flush().unwrap();
                             }
-                        } else {
-                            stream
-                                .write_all("HTTP/1.1 404 Not Found\r\n\r\n".as_bytes())
-                                .unwrap();
-                            stream.flush().unwrap();
+                            None => {}
                         }
+                        // if path != "/" {
+                        //     let param = path.split("/").nth(2);
+
+                        //     match param {
+                        //         Some(param) => {
+                        //             stream
+                        //                 .write_all(format!("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {}\r\n\r\n{}", param.len(), param).as_bytes())
+                        //                 .unwrap();
+                        //             stream.flush().unwrap();
+                        //         }
+                        //         None => {}
+                        //     }
+                        // } else {
+                        //     stream
+                        //         .write_all("HTTP/1.1 404 Not Found\r\n\r\n".as_bytes())
+                        //         .unwrap();
+                        //     stream.flush().unwrap();
+                        // }
                     }
                     None => {}
                 }
