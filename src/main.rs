@@ -83,7 +83,6 @@ fn main() {
 
                             let file_body = file_body.replace("\0", "");
                             let file_body = file_body.replace(r"\r\n", "\n");
-                            let file_body = file_body.replace(r"\n", "\n");
                             file.write_all(&file_body.as_bytes()).unwrap();
 
                             stream
