@@ -43,9 +43,9 @@ fn main() {
                                 .write_all(format!("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {}\r\n\r\n{}", agent.len(), agent).as_bytes())
                                 .unwrap();
                         stream.flush().unwrap();
-                    } else if path.starts_with("/files/") && path.len() > 7 && args.len() >= 2 && args.get(1) == Some(&String::from("--directory")) {
+                    } else if path.starts_with("/files/") && path.len() > 7 && args.len() == 3 && args.get(1) == Some(&String::from("--directory")) {
                         let file_str = if path.len() > 7 { &path[7..] } else { "" };
-                        let dir_str = match args.get(1) {
+                        let dir_str = match args.get(2) {
                             Some(dir) => {dir}
                             None => {""}
                         };
