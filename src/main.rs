@@ -81,7 +81,9 @@ fn main() {
                             let mut file = File::create(file_path).unwrap();
                             let file_body = req_str.split("\r\n\r\n").last().unwrap();
 
-                            let file_body = file_body.replace("\r\n", "\n");
+                            let file_body = file_body.replace("\0", "");
+                            let file_body = file_body.replace(r"\r\n", "\n");
+                            let file_body = file_body.replace(r"\n", "\n");
                             file.write_all(&file_body.as_bytes()).unwrap();
 
                             stream
