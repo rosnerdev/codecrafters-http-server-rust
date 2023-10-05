@@ -80,6 +80,7 @@ fn main() {
                         if fs::metadata(&dir_str).is_ok() {
                             let mut file = File::create(file_str).unwrap();
                             let file_body = req_str.split("\r\n").last().unwrap();
+                            println!("{file_body}");
 
                             file.write_all(file_body.as_bytes()).unwrap();
 
