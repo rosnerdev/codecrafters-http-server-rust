@@ -82,7 +82,7 @@ fn main() {
                             let file_body = req_str.split("\r\n\r\n").last().unwrap();
 
                             println!("{file_body}");
-                            file.write_all(file_body.as_bytes()).unwrap();
+                            file.write_all(&file_body.as_bytes()).unwrap();
 
                             stream
                                 .write_all(b"HTTP/1.1 201 Created\r\n\r\n")
