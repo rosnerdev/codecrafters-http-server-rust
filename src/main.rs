@@ -79,7 +79,7 @@ fn main() {
                         if fs::metadata(&dir_str).is_ok() {
                             let file_path = format!("{}/{}", dir_str, file_str);
                             let mut file = File::create(file_path).unwrap();
-                            let file_body = req_str.split("\r\n").last().unwrap();
+                            let file_body = req_str.split("\r\n\r\n").last().unwrap();
 
                             file.write_all(file_body.as_bytes()).unwrap();
 
