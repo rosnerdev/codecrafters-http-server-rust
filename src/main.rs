@@ -51,7 +51,7 @@ fn main() {
                         };
 
                         let file_path = format!("./{}/{}", dir_str, file_str);
-                        let metadata_result = fs::metadata(file_path);
+                        let metadata_result = fs::metadata(&file_path);
 
                         if metadata_result.is_ok() {
                             let mut file = File::open(file_path).unwrap();
