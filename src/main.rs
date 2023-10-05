@@ -18,6 +18,7 @@ fn main() {
 
             let req_str = String::from_utf8_lossy(&buffer[..]);
 
+            let req_method = req_str.split(" ").nth(0);
             let path = req_str.split(" ").nth(1);
             let args: Vec<String> = env::args().collect();
 
@@ -43,7 +44,7 @@ fn main() {
                                 .write_all(format!("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {}\r\n\r\n{}", agent.len(), agent).as_bytes())
                                 .unwrap();
                         stream.flush().unwrap();
-                    } else if path.starts_with("/files/") && path.len() > 7 && args.len() == 3 && args.get(1) == Some(&String::from("--directory")) {
+                    } else if req_method == Some("GET") && path.starts_with("/files/") && path.len() > 7 && args.len() == 3 && args.get(1) == Some(&String::from("--directory")) {
                         let file_str = if path.len() > 7 { &path[7..] } else { "" };
                         let dir_str = match args.get(2) {
                             Some(dir) => {dir}
@@ -61,6 +62,29 @@ fn main() {
 
                             stream
                                 .write_all(format!("HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {}\r\n\r\n{}", contents.len(), contents).as_bytes())
+                                .unwrap();
+                            stream.flush().unwrap();
+                        } else {
+                            stream
+                                .write_all("HTTP/1.1 404 Not Found\r\n\r\n".as_bytes())
+                                .unwrap();
+                            stream.flush().unwrap();
+                        }
+                    } else if req_method == Some("POST") && path.starts_with("/files/") && path.len() > 7 && args.len() == 3 && args.get(1) == Some(&String::from("--directory")) {
+                        let file_str = if path.len() > 7 { &path[7..] } else { "" };
+                        let dir_str = match args.get(2) {
+                            Some(dir) => {dir}
+                            None => {""}
+                        };
+
+                        if fs::metadata(&dir_str).is_ok() {
+                            let mut file = File::create(file_str).unwrap();
+                            let file_body = req_str.split("\r\n").last().unwrap();
+
+                            file.write_all(file_body.as_bytes()).unwrap();
+
+                            stream
+                                .write_all("HTTP/1.1 201 Created\r\n\r\n".as_bytes())
                                 .unwrap();
                             stream.flush().unwrap();
                         } else {
