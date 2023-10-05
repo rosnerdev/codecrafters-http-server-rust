@@ -83,6 +83,10 @@ fn main() {
 
                             file.write_all(file_body.as_bytes()).unwrap();
 
+                            let mut buff = [0;1024];
+                            let content = file.read(&mut buff);
+                            println!("{}", content);
+
                             stream
                                 .write_all("HTTP/1.1 201 Created\r\n\r\n".as_bytes())
                                 .unwrap();
