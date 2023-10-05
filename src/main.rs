@@ -51,6 +51,7 @@ fn main() {
                         };
 
                         let file_path = format!("{}/{}", dir_str, file_str);
+                        println!("{file_path}");
                         let metadata_result = fs::metadata(&file_path);
 
                         if metadata_result.is_ok() {
