@@ -60,7 +60,7 @@ fn main() {
                             file.read_to_string(&mut contents).unwrap();
 
                             stream
-                                .write_all(format!("HTTP/1.1 200 OK\r\nContent-Type: text/octet-stream\r\nContent-Length: {}\r\n\r\n{}", contents.len(), contents).as_bytes())
+                                .write_all(format!("HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {}\r\n\r\n{}", contents.len(), contents).as_bytes())
                                 .unwrap();
                             stream.flush().unwrap();
                         } else {
